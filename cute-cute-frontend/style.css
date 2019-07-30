@@ -1,0 +1,59 @@
+.backgroundpic{
+  background-image: url("../images/login3.jpg");
+  height: 100%; 
+  width: 100%; 
+  /* background-position: center; */
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+/* 
+#login {
+  display: flex;
+  justify-content: center;
+  margin-top: 20%;
+} */
+
+.login-container {
+    background: none;
+    padding: 0;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: calc(100vh - 60px);
+}
+#login {
+    display: flex;
+    justify-content: center;
+    margin-top: -90px;
+    background-color: white;
+    border-radius: 50px;
+    text-align: center;
+    opacity: 1;
+    padding: 50px;
+}
+
+.profilebackground {
+  image: url("../images/bedroom1.png");
+  height: 80%; 
+  width: 80%; 
+  background-position-y: center;
+  background-position-x: center;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+  opacity: .5;
+
+}
+
+.background-images {
+  height: 100px;
+  width: 150px;
+}
+
+.background-container {
+  display: flex;
+  justify-content: space-around;
+}
