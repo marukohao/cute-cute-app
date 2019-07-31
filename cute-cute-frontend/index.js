@@ -87,14 +87,12 @@ function renderBackgrounds(info, data) {
         let playButton = document.createElement('div');
         playButton.className = 'play-button';
         videoThumb.appendChild(playButton);
-        let aTag = document.createElement('a');
-        aTag.innerText = 'x';
-        aTag.className = 'remove-image';
-        aTag.style = 'display: inline;'
-        videoThumb.appendChild(aTag);
+        // let aTag = document.createElement('a');
+        // aTag.innerText = 'x';
+        // aTag.className = 'remove-image';
+        // aTag.style = 'display: inline;'
+        // videoThumb.appendChild(aTag);
         roomChoice(playButton, image, userId, backgroundId);
-
-        // <a class="remove-image" href="#" style="display: inline;">×</a>
       }else {
         console.log("create table")
         let plusButton = document.createElement('div');
@@ -113,16 +111,29 @@ function renderBackgrounds(info, data) {
   });
 }
 
-function roomChoice(button, image, userId, backgroundId) {
+function roomDeleteButton(aTag, image) {
+  aTag.addEventListener('click', function(e) {
+    const roomId = image.name;
+    console.log(image);
+  })
+}
+
+function roomChoice(button, image, userId, backgroundId, aTag) {
   button.addEventListener('click', function(e) {
     if (button.className === 'plus-button') {
-      createRoomAssociation(userId, backgroundId)
+      createRoomAssociation(userId, backgroundId, image)
   }
     const profilePage = document.querySelector('.profile-page');
     profilePage.innerHTML = '';
     profilePage.className = 'room-choice';
     image.className = "create-room-background";
     profilePage.appendChild(image);
+    let aTag = document.createElement('a');
+    aTag.innerText = 'x';
+    aTag.className = 'remove-image';
+    aTag.style = 'display: inline;'
+    profilePage.appendChild(aTag);
+    roomDeleteButton(aTag, image);
     const itemContainer = document.createElement('div');
     itemContainer.className = 'item-container';
     profilePage.appendChild(itemContainer);
@@ -130,8 +141,8 @@ function roomChoice(button, image, userId, backgroundId) {
   })
 }
 
-function createRoomAssociation(userId, backgroundId) {
-     fetch(ROOMS_URL, {
+function createRoomAssociation(userId, backgroundId, image) {
+     return fetch(ROOMS_URL, {
       method: 'POST',
       headers: {
         'Content-Type': "application/json"
@@ -141,8 +152,10 @@ function createRoomAssociation(userId, backgroundId) {
         background_id: backgroundId
       })
     })
-    .then(resp => resp.json())
-    .then(data => console.log(data))
+      .then(resp => resp.json())
+       .then(roomData => {
+         image.setAttribute('name', roomData.id);
+        })
   }
   
   

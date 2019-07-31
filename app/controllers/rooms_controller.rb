@@ -10,4 +10,9 @@ class RoomsController < ApplicationController
     render json: room
   end
 
+  def destroy
+    room = Room.find(param[:id])
+    room.delete
+  end
+
 end
