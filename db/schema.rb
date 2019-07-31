@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_29_172859) do
+ActiveRecord::Schema.define(version: 2019_07_30_023642) do
 
   create_table "backgrounds", force: :cascade do |t|
     t.string "name"
@@ -21,11 +21,11 @@ ActiveRecord::Schema.define(version: 2019_07_29_172859) do
 
   create_table "decorations", force: :cascade do |t|
     t.integer "item_id"
-    t.integer "background_id"
+    t.integer "room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["background_id"], name: "index_decorations_on_background_id"
     t.index ["item_id"], name: "index_decorations_on_item_id"
+    t.index ["room_id"], name: "index_decorations_on_room_id"
   end
 
   create_table "items", force: :cascade do |t|

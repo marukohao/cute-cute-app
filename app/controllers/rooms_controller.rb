@@ -5,7 +5,7 @@ class RoomsController < ApplicationController
   end
 
   def create
-    room = Room.new(params.require(:room).permit(:roomname))
+    room = Room.new(params.require(:room).permit(:user_id, :background_id))
     room.save
     render json: room
   end

@@ -1,4 +1,4 @@
 class Decoration < ApplicationRecord
   belongs_to :item
-  belongs_to :background
+  belongs_to :room
 end

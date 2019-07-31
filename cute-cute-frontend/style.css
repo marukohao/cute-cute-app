@@ -1,59 +1,244 @@
-.backgroundpic{
-  background-image: url("../images/login3.jpg");
-  height: 100%; 
-  width: 100%; 
-  /* background-position: center; */
-  background-repeat: no-repeat;
-  background-size: cover;
+@import url('https://fonts.googleapis.com/css?family=Barriecito|Hanalei|Press+Start+2P|Saira+Stencil+One&display=swap');
+* {
+  box-sizing: border-box;
+  font-family: 'Lacquer', sans-serif;
 }
-/* 
-#login {
-  display: flex;
-  justify-content: center;
-  margin-top: 20%;
-} */
+
+body {
+  margin: 0;
+}
+
+.backgroundpic {
+  /* background-image: url("../images/login3.jpg");
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: contain; */
+  /* font-family: 'Lacquer', sans-serif; */
+  /* font-family: 'Hanalei', cursive; */
+  /* font-family: 'Barriecito', cursive */
+}
+
+.bg {
+  position: absolute;
+  background-image: url("../images/login3.jpg");
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  /* font-family: 'Lacquer', sans-serif; */
+  /* font-family: 'Hanalei', cursive; */
+  /* font-family: 'Barriecito', cursive */
+}
 
 .login-container {
-    background: none;
-    padding: 0;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100vh;
 }
+
 #login {
-    display: flex;
-    justify-content: center;
-    margin-top: -90px;
-    background-color: white;
-    border-radius: 50px;
-    text-align: center;
-    opacity: 1;
-    padding: 50px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  /* background-color: white; */
+  border-radius: 50px;
+  text-align: center;
+  padding: 30px;
+  width: 90%;
+  max-width: 420px;
+  margin-bottom: 100px;
+}
+
+.input {
+  padding: 15px 20px;
+  border: 2px solid #afafe1;
+  width: 100%;
+  margin: 0 auto 30px;
+  font-size: 18px;
+}
+
+.button-primary {
+  display: block;
+  background: #5eb6e8;
+  border: 5px solid transparent;
+  border-radius: 10px;
+  box-shadow: 0 9px #6d66d4;
+  color: #f7f6f3;
+  cursor: pointer;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.5em;
+  margin: 0 auto;
+  padding: 0.6em 1em;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+  transition-duration: 0.2s;
+  width: 100%;
 }
 
 .profilebackground {
-  image: url("../images/bedroom1.png");
-  height: 80%; 
-  width: 80%; 
+  /* font-family: 'Lacquer', sans-serif; */
+  /* font-family: 'Hanalei', cursive; */
+  /* font-family: 'Barriecito', cursive; */
+  /* font-family: 'Saira Stencil One', cursive; */
+  font-family: 'Press Start 2P', cursive;
+  height: 80%;
+  width: 80%;
   background-position-y: center;
   background-position-x: center;
   background-repeat: no-repeat;
   border-radius: 10px;
-  opacity: .5;
-
+  opacity: .7;
 }
 
-.background-images {
+/* .background-images {
   height: 100px;
   width: 150px;
-}
+} */
 
 .background-container {
   display: flex;
   justify-content: space-around;
+}
+
+.video_thumb {
+  position: relative;
+  width: 400px;
+  height: 300px;
+  display: block;
+  border: 2px solid #fff;
+  margin: 2em auto;
+  overflow: hidden;
+}
+
+.background-images {
+  position: absolute;
+  max-width: 100%;
+  height: 300px;
+  width: 400px;
+}
+
+.create-room-background {
+  position: relative;
+  max-width: 100%;
+  height: 300px;
+  width: 450px;
+  display: block;
+}
+
+.play-button {
+  position: absolute;
+  /* top: calc(50% - 25px);
+  left: calc(50% - 50px); */
+  width: 100px;
+  height: 100px;
+  display: block;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0 auto;
+  user-select: none;
+  background-color: rgba(0, 0, 0, 0.6);
+  transition: background-color 0.5s ease;
+}
+
+.play-button:after {
+  position: absolute;
+  top: calc(50% - 25px);
+  left: calc(50% - 14px);
+  display: block;
+  content: '';
+  box-sizing: border-box;
+  border-color: transparent transparent transparent #fff;
+  border-style: solid;
+  border-width: 26px 0 26px 40px;
+}
+
+.play-button:hover {
+  /* background-color: rgba(66, 51, 0, 0.9); */
+  background-color: teal;
+}
+
+.plus-button:hover {
+  background-color: rgba(66, 51, 0, 0.9);
+  background-color: teal;
+}
+
+.plus-button {
+  background-color: rgba(0, 0, 0, 0.6);
+  height: 6rem;
+  width: 6rem;
+  border-radius: 100%;
+  position: relative;
+  transition: background-color 0.5s ease;
+}
+
+.plus-button:before, .plus-button:after {
+  position: absolute;
+  border-radius: 5px;
+  content: '';
+  width: 50%;
+  height: 10%;
+  top: calc(45%);
+  left: 25%;
+  background-color: white;
+  transform-origin: 50% 50%;
+  -webkit-transform-origin: 50% 50%;
+  transition: all 0.6s ease-in-out;
+}
+
+.plus-button:after {
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+}
+
+.item-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  width: 80%;
+  max-height: 100px;
+}
+
+.item-cards {
+  position:
+}
+
+.item-cards img {
+  height: 100px;
+  width: 100px;
+  padding: 10px;
+}
+
+.item-image {}
+
+.room-choice {
+  width: 100%;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.remove-image {
+  transition: transform .2s;
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 10em;
+  padding: 2px 6px 3px;
+  text-decoration: none;
+  font: 700 21px/20px sans-serif;
+  background: #555;
+  border: 3px solid #fff;
+  color: #FFF;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  -webkit-transition: background 0.5s;
+  transition: background 0.5s;
 }

@@ -1,10 +1,13 @@
+
 const USERS_URL = 'http://localhost:3000/users'
 const BACKGROUNDS_URL = 'http://localhost:3000/backgrounds'
+const ITEMS_URL = 'http://localhost:3000/items'
+const ROOMS_URL = 'http://localhost:3000/rooms'
 
 function fetchUsersData() {
   return fetch(USERS_URL)
-  .then(resp => resp.json())
-  .then(data => checkUserName(data))
+    .then(resp => resp.json())
+    .then(data => checkUserName(data));
 }
 
 function createUser(inputValue) {
@@ -18,48 +21,37 @@ function createUser(inputValue) {
       username: inputValue
     })
   })
-  .then(resp => resp.json())
-  .then(data => displayUserPage(data))
+    .then(resp => resp.json())
+    .then(data => displayUserPage(data))
 }
 
 function checkUserName(data) {
- const userInput = document.getElementById('login');
- userInput.addEventListener('submit', function(e) {
-   e.preventDefault();
-   const inputValue = e.target.username.value;
-  //  console.log(data);
-   const userExist = data.find(user => user.username === inputValue);
+  const userInput = document.getElementById('login');
+  userInput.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const inputValue = e.target.username.value;
+    //  console.log(data);
+    const userExist = data.find(user => user.username === inputValue);
     if (!userExist) {
-    createUser(inputValue);
-   }
-    displayUserPage(userExist);
- })
+      createUser(inputValue);
+    }else {
+      displayUserPage(userExist);
+    }
+  })
 }
 
 function displayUserPage(data) {
   const backgroundPic = document.querySelector(".backgroundpic")
-  backgroundPic.className = "profilebackground"
-  backgroundPic.innerHTML = ""
-  if (data.backgrounds === []) {
-    createUserElements(data)
-    //show the background image with a plus on it
-
-  } else {
-    createUserElements(data)
-
-    //show current backgrounds
-  }
-
-  
-
-
+  console.log(backgroundPic);
+  backgroundPic.className = "profilebackground";
+  backgroundPic.innerHTML = "";
+  createUserElements(data);
 }
 
 function createUserElements(data) {
   const profileBackground = document.querySelector(".profilebackground")
   const profileDiv = document.createElement("div")
   profileDiv.className = "profile-page"
-  // console.log(profile)
   profileBackground.appendChild(profileDiv)
   const h2 = document.createElement('h2');
   h2.innerText = `Welcome ${data.username}!`
@@ -70,33 +62,121 @@ function createUserElements(data) {
 
 function fetchBackgrounds(data) {
   return fetch(BACKGROUNDS_URL)
-  .then(resp => resp.json())
-  .then(info => renderBackgrounds(info, data));
+    .then(resp => resp.json())
+    .then(info => renderBackgrounds(info, data));
 }
 
 function renderBackgrounds(info, data) {
-  console.log("data", data)
-  console.log("info", info)
   const profileDiv = document.querySelector(".profile-page")
   const container = document.createElement("div")
   container.className = "background-container"
   profileDiv.appendChild(container)
-    info.forEach(element => {
-    let image = document.createElement("img")
-    image.src = element.background_url 
-    image.className = "background-images"
-    container.appendChild(image)
-    if (data.backgrounds.find(background => background.id === element.id)) {
-      console.log('cool', element.id)
-      //put play on image
+  info.forEach(element => {
+    let videoThumb = document.createElement('div');
+    videoThumb.className = 'video_thumb';
+    container.appendChild(videoThumb);
+    let image = document.createElement("img");
+    image.src = element.background_url;
+    image.className = "background-images";
+    image.id = `${element.name}`;
+    videoThumb.appendChild(image);
+    const userId = data.id;
+    const backgroundId = element.id;
+    if (data.backgrounds) {
+      if (data.backgrounds.find(background => background.id === element.id)) {
+        let playButton = document.createElement('div');
+        playButton.className = 'play-button';
+        videoThumb.appendChild(playButton);
+        let aTag = document.createElement('a');
+        aTag.innerText = 'x';
+        aTag.className = 'remove-image';
+        aTag.style = 'display: inline;'
+        videoThumb.appendChild(aTag);
+        roomChoice(playButton, image, userId, backgroundId);
+
+        // <a class="remove-image" href="#" style="display: inline;">×</a>
+      }else {
+        console.log("create table")
+        let plusButton = document.createElement('div');
+        plusButton.className = 'plus-button';
+        videoThumb.appendChild(plusButton);
+        roomChoice(plusButton, image, userId, backgroundId);
+      }
     } else {
-      //put plus on image
-      console.log("didn't see it", element.id)
+      console.log("create table")
+
+      let plusButton = document.createElement('div');
+      plusButton.className = 'plus-button';
+      videoThumb.appendChild(plusButton);
+      roomChoice(plusButton, image, userId, backgroundId);
     }
-    
   });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+function roomChoice(button, image, userId, backgroundId) {
+  button.addEventListener('click', function(e) {
+    if (button.className === 'plus-button') {
+      createRoomAssociation(userId, backgroundId)
+  }
+    const profilePage = document.querySelector('.profile-page');
+    profilePage.innerHTML = '';
+    profilePage.className = 'room-choice';
+    image.className = "create-room-background";
+    profilePage.appendChild(image);
+    const itemContainer = document.createElement('div');
+    itemContainer.className = 'item-container';
+    profilePage.appendChild(itemContainer);
+    fetchItems(image);
+  })
+}
+
+function createRoomAssociation(userId, backgroundId) {
+     fetch(ROOMS_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': "application/json"
+      },
+      body: JSON.stringify({
+        user_id: userId,
+        background_id: backgroundId
+      })
+    })
+    .then(resp => resp.json())
+    .then(data => console.log(data))
+  }
+  
+  
+function fetchItems(image, info) {
+  return fetch(ITEMS_URL)
+  .then(resp => resp.json())
+  .then(data => renderItems(data, image)) 
+}
+
+function renderItems(data, image) {
+  let itemContainer = document.querySelector('.item-container')
+  const items = data.filter(item => item.room_type === image.id);
+  items.forEach(element => {
+    let imgCard = document.createElement("div");
+    imgCard.className = 'item-cards';
+    itemContainer.appendChild(imgCard);
+    let itemImg = document.createElement('img');
+    itemImg.src = element.item_url;
+    itemImg.className = 'item-image'
+    imgCard.appendChild(itemImg);
+    // clickItems(element);
+  })
+}
+
+// function clickItems(itemImg, element) {
+//   itemImg.addEventListener('click', function(e){
+//     createDecoration(element)
+//   })
+// }
+
+// function createDecoration(element) {
+
+// }
+
+document.addEventListener('DOMContentLoaded', function () {
   fetchUsersData();
 })
