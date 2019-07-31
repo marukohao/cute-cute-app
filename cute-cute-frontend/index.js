@@ -42,9 +42,13 @@ function checkUserName(data) {
 
 function displayUserPage(data) {
   const backgroundPic = document.querySelector(".backgroundpic")
-  console.log(backgroundPic);
-  backgroundPic.className = "profilebackground";
-  backgroundPic.innerHTML = "";
+  if (backgroundPic) {
+    backgroundPic.className = "profilebackground";
+    backgroundPic.innerHTML = "";
+  }else {
+    const backgroundPic = document.querySelector('.profilebackground');
+    backgroundPic.innerHTML = "";
+  }
   createUserElements(data);
 }
 
@@ -92,7 +96,9 @@ function renderBackgrounds(info, data) {
         // aTag.className = 'remove-image';
         // aTag.style = 'display: inline;'
         // videoThumb.appendChild(aTag);
-        roomChoice(playButton, image, userId, backgroundId);
+        fetchRoomData(playButton, image, userId, backgroundId);
+        // console.log(roomId);
+        // roomChoice(playButton, image, userId, backgroundId);
       }else {
         console.log("create table")
         let plusButton = document.createElement('div');
@@ -111,33 +117,72 @@ function renderBackgrounds(info, data) {
   });
 }
 
-function roomDeleteButton(aTag, image) {
+function fetchRoomData(playButton, image, userId, backgroundId){
+  fetch(ROOMS_URL)
+  .then(resp => resp.json())
+    .then(roomJson => roomChoice(playButton, image, userId, backgroundId, roomJson)
+    // {return roomJson.filter(room => room.user_id === userId).filter(room => room.background_id === backgroundId)[0].id;}
+  )
+}
+
+function roomDeleteButton(aTag, image, userId) {
   aTag.addEventListener('click', function(e) {
-    const roomId = image.name;
-    console.log(image);
+    fetch(ROOMS_URL + '/' + image.name, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: image.name })
+    })
+    .then(resp =>resp.json())
+    .then(json => {
+      console.log(json);
+      fetch(USERS_URL + '/' + userId)
+      .then(resp => resp.json())
+      .then(data => displayUserPage(data)) 
+    }).catch(err => {
+      console.error(err)
+    })
   })
 }
 
-function roomChoice(button, image, userId, backgroundId, aTag) {
+function roomChoice(button, image, userId, backgroundId, roomJson) {
+  // let roomId = romJson.filter(room => room.user_id === userId).filter(room => room.background_id === backgroundId)[0].id
   button.addEventListener('click', function(e) {
     if (button.className === 'plus-button') {
       createRoomAssociation(userId, backgroundId, image)
-  }
-    const profilePage = document.querySelector('.profile-page');
-    profilePage.innerHTML = '';
-    profilePage.className = 'room-choice';
-    image.className = "create-room-background";
-    profilePage.appendChild(image);
-    let aTag = document.createElement('a');
-    aTag.innerText = 'x';
-    aTag.className = 'remove-image';
-    aTag.style = 'display: inline;'
-    profilePage.appendChild(aTag);
-    roomDeleteButton(aTag, image);
-    const itemContainer = document.createElement('div');
-    itemContainer.className = 'item-container';
-    profilePage.appendChild(itemContainer);
-    fetchItems(image);
+      const profilePage = document.querySelector('.profile-page');
+      profilePage.innerHTML = '';
+      profilePage.className = 'room-choice';
+      image.className = "create-room-background";
+      profilePage.appendChild(image);
+      let aTag = document.createElement('a');
+      aTag.innerText = 'x';
+      aTag.className = 'remove-image';
+      aTag.style = 'display: inline;'
+      profilePage.appendChild(aTag);
+      roomDeleteButton(aTag, image, userId);
+      const itemContainer = document.createElement('div');
+      itemContainer.className = 'item-container';
+      profilePage.appendChild(itemContainer);
+      fetchItems(image);
+    }else {
+      let roomId = roomJson.filter(room => room.user_id === userId).filter(room => room.background_id === backgroundId)[0].id;
+      const profilePage = document.querySelector('.profile-page');
+      profilePage.innerHTML = '';
+      profilePage.className = 'room-choice';
+      image.className = "create-room-background";
+      image.setAttribute('name', roomId);
+      profilePage.appendChild(image);
+      let aTag = document.createElement('a');
+      aTag.innerText = 'x';
+      aTag.className = 'remove-image';
+      aTag.style = 'display: inline;'
+      profilePage.appendChild(aTag);
+      roomDeleteButton(aTag, image, userId);
+      const itemContainer = document.createElement('div');
+      itemContainer.className = 'item-container';
+      profilePage.appendChild(itemContainer);
+      fetchItems(image);
+    }
   })
 }
 
