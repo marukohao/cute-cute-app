@@ -153,6 +153,7 @@ function roomChoice(button, image, userId, backgroundId, roomJson) {
       const profilePage = document.querySelector('.profile-page');
       profilePage.innerHTML = '';
       profilePage.className = 'room-choice';
+      createReturnButton(profilePage, userId);
       image.className = "create-room-background";
       profilePage.appendChild(image);
       let aTag = document.createElement('a');
@@ -170,6 +171,7 @@ function roomChoice(button, image, userId, backgroundId, roomJson) {
       const profilePage = document.querySelector('.profile-page');
       profilePage.innerHTML = '';
       profilePage.className = 'room-choice';
+      createReturnButton(profilePage, userId);
       image.className = "create-room-background";
       image.setAttribute('name', roomId);
       profilePage.appendChild(image);
@@ -184,6 +186,18 @@ function roomChoice(button, image, userId, backgroundId, roomJson) {
       profilePage.appendChild(itemContainer);
       fetchItems(image, userId);
     }
+  })
+}
+
+function createReturnButton(profilePage, userId) {
+  const returnButton = document.createElement('button');
+  returnButton.className = 'returnToProfile';
+  returnButton.innerText = 'return';
+  profilePage.appendChild(returnButton);
+  returnButton.addEventListener('click', function(e) {
+    fetch(USERS_URL + '/' + userId)
+      .then(resp => resp.json())
+      .then(data => displayUserPage(data)) 
   })
 }
 
@@ -261,30 +275,31 @@ function renderUserData(userData, items, image) {
       aTag.className = 'remove-item';
       aTag.style = 'display: inline;'
       imgCard.appendChild(aTag);
-      deleteItemAss(aTag, image, itemId);
-      clickItems(itemImg, element, image);
+      deleteItemAss(aTag, image, itemId, imgCard, element);
+      // clickItems(itemImg, element, image);
     }else {
-    let itemContainer = document.querySelector('.item-container')
-    let imgCard = document.createElement("div");
-    imgCard.className = 'item-cards';
-    itemContainer.appendChild(imgCard);
-    let itemImg = document.createElement('img');
-    itemImg.src = element.item_url;
-    itemImg.className = 'item-image'
-    imgCard.appendChild(itemImg);
-    clickItems(itemImg, element, image);
+      let itemId = element.id;
+      let itemContainer = document.querySelector('.item-container')
+      let imgCard = document.createElement("div");
+      imgCard.className = 'item-cards';
+      itemContainer.appendChild(imgCard);
+      let itemImg = document.createElement('img');
+      itemImg.src = element.item_url;
+      itemImg.className = 'item-image'
+      imgCard.appendChild(itemImg);
+      clickItems(itemImg, element, image, itemId, imgCard);
     }
   })
 }
 
-function deleteItemAss(aTag, image, itemId) {
-  fetchDecorationsData(image, itemId, aTag)
-  // aTag.addEventListener('click', function(e){
-
-  // })
+function deleteItemAss(aTag, image, itemId, imgCard, element) {
+  console.log('itemID', element.id);
+  fetchDecorationsData(aTag, image, itemId, imgCard, element)
+  
 }
 
-function fetchDecorationsData(image, itemId, aTag) {
+function fetchDecorationsData(aTag, image, itemId, imgCard, element) {
+  console.log(image.name, itemId)
   fetch(DECORATIONS_URL)
     .then(resp => resp.json())
     .then(decorationsJson => {
@@ -297,20 +312,32 @@ function fetchDecorationsData(image, itemId, aTag) {
           body: JSON.stringify({ id: decorationId })
         })
           .then(resp => resp.json())
-          .then(json => console.log(json))
+          .then(json => {
+            imgCard.innerHTML = "";
+            let itemContainer = document.querySelector('.item-container')
+            let imgCard1 = document.createElement("div");
+            imgCard1.className = 'item-cards';
+            itemContainer.appendChild(imgCard1);
+            let itemImg = document.createElement('img');
+            itemImg.src = element.item_url;
+            itemImg.className = 'item-image'
+            imgCard1.appendChild(itemImg);
+            clickItems(itemImg, element, image, itemId, imgCard);
+        })
       })    
     })
 }
 
 
-function clickItems(itemImg, element, image) {
+function clickItems(itemImg, element, image, itemId, imgCard) {
   itemImg.addEventListener('click', function(e){
+    // console.log('clicked')
     itemImg.parentNode.remove();
-    createDecoration(element, image, itemImg)
+    createDecoration(element, image, itemImg, itemId, imgCard)
   })
 }
 
-function createDecoration(element, image, itemImg) {
+function createDecoration(element, image, itemImg, itemId, imgCard) {
   return fetch(DECORATIONS_URL, {
     method: 'POST',
     headers: {
@@ -323,11 +350,11 @@ function createDecoration(element, image, itemImg) {
   })
     .then(resp => resp.json())
     .then(decoratonData => 
-      createDecorationElement(image, itemImg)
+      createDecorationElement(image, itemImg, itemId, imgCard, element)
     )
 }
 
-function createDecorationElement(image, itemImg) {
+function createDecorationElement(image, itemImg, itemId, imgCard, element) {
 
   const decorationsContainer = document.querySelector('.decorations-container');
   const decorationImg = document.createElement('img');
@@ -338,7 +365,14 @@ function createDecorationElement(image, itemImg) {
   decorationImg.className = 'decorationImages';
   decorationImg.id = image.name;
   decorationCard.appendChild(decorationImg);
-  
+  let aTag = document.createElement('a');
+  aTag.innerText = 'x';
+  aTag.className = 'remove-item';
+  aTag.style = 'display: inline;'
+  decorationCard.appendChild(aTag);
+  // imgCard = decoratonCard;
+  console.log('imgcard', imgCard);
+  deleteItemAss(aTag, image, itemId, decorationCard, element);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
