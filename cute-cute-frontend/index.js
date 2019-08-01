@@ -4,6 +4,13 @@ const BACKGROUNDS_URL = 'http://localhost:3000/backgrounds'
 const ITEMS_URL = 'http://localhost:3000/items'
 const ROOMS_URL = 'http://localhost:3000/rooms'
 const DECORATIONS_URL = 'http://localhost:3000/decorations'
+// const audio = ' <embed src="/Users/hao/Github/cute-cute-app/audio/Toy_Piano.mp3" width="180" height="90" loop="false" autostart="false" hidden="true" />'
+
+function addMusic() {
+  const musicElement = document.createElement("embed");
+  musicElement.src = "/Users/hao/Github/cute-cute-app/audio/Toy_Piano.mp3";
+  document.querySelector('body').append(musicElement);
+}
 
 function fetchUsersData() {
   return fetch(USERS_URL)
@@ -35,7 +42,7 @@ function checkUserName(data) {
     const userExist = data.find(user => user.username === inputValue);
     if (!userExist) {
       createUser(inputValue);
-    }else {
+    } else {
       displayUserPage(userExist);
     }
   })
@@ -46,7 +53,7 @@ function displayUserPage(data) {
   if (backgroundPic) {
     backgroundPic.className = "profilebackground";
     backgroundPic.innerHTML = "";
-  }else {
+  } else {
     const backgroundPic = document.querySelector('.profilebackground');
     backgroundPic.innerHTML = "";
   }
@@ -63,6 +70,7 @@ function createUserElements(data) {
   h2.className = 'user-header'
   profileDiv.appendChild(h2)
   fetchBackgrounds(data);
+  addMusic();
 }
 
 function fetchBackgrounds(data) {
@@ -100,7 +108,7 @@ function renderBackgrounds(info, data) {
         fetchRoomData(playButton, image, userId, backgroundId);
         // console.log(roomId);
         // roomChoice(playButton, image, userId, backgroundId);
-      }else {
+      } else {
         console.log("create table")
         let plusButton = document.createElement('div');
         plusButton.className = 'plus-button';
@@ -118,36 +126,36 @@ function renderBackgrounds(info, data) {
   });
 }
 
-function fetchRoomData(playButton, image, userId, backgroundId){
+function fetchRoomData(playButton, image, userId, backgroundId) {
   fetch(ROOMS_URL)
-  .then(resp => resp.json())
+    .then(resp => resp.json())
     .then(roomJson => roomChoice(playButton, image, userId, backgroundId, roomJson)
-    // {return roomJson.filter(room => room.user_id === userId).filter(room => room.background_id === backgroundId)[0].id;}
-  )
+      // {return roomJson.filter(room => room.user_id === userId).filter(room => room.background_id === backgroundId)[0].id;}
+    )
 }
 
 function roomDeleteButton(aTag, image, userId) {
-  aTag.addEventListener('click', function(e) {
+  aTag.addEventListener('click', function (e) {
     fetch(ROOMS_URL + '/' + image.name, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: image.name })
     })
-    .then(resp =>resp.json())
-    .then(json => {
-      console.log(json);
-      fetch(USERS_URL + '/' + userId)
       .then(resp => resp.json())
-      .then(data => displayUserPage(data)) 
-    }).catch(err => {
-      console.error(err)
-    })
+      .then(json => {
+        console.log(json);
+        fetch(USERS_URL + '/' + userId)
+          .then(resp => resp.json())
+          .then(data => displayUserPage(data))
+      }).catch(err => {
+        console.error(err)
+      })
   })
 }
 
 function roomChoice(button, image, userId, backgroundId, roomJson) {
   // let roomId = romJson.filter(room => room.user_id === userId).filter(room => room.background_id === backgroundId)[0].id
-  button.addEventListener('click', function(e) {
+  button.addEventListener('click', function (e) {
     if (button.className === 'plus-button') {
       createRoomAssociation(userId, backgroundId, image)
       const profilePage = document.querySelector('.profile-page');
@@ -166,7 +174,7 @@ function roomChoice(button, image, userId, backgroundId, roomJson) {
       itemContainer.className = 'item-container';
       profilePage.appendChild(itemContainer);
       fetchItems(image, userId);
-    }else {
+    } else {
       let roomId = roomJson.filter(room => room.user_id === userId).filter(room => room.background_id === backgroundId)[0].id;
       const profilePage = document.querySelector('.profile-page');
       profilePage.innerHTML = '';
@@ -194,35 +202,35 @@ function createReturnButton(profilePage, userId) {
   returnButton.className = 'returnToProfile';
   returnButton.innerText = 'return';
   profilePage.appendChild(returnButton);
-  returnButton.addEventListener('click', function(e) {
+  returnButton.addEventListener('click', function (e) {
     fetch(USERS_URL + '/' + userId)
       .then(resp => resp.json())
-      .then(data => displayUserPage(data)) 
+      .then(data => displayUserPage(data))
   })
 }
 
 function createRoomAssociation(userId, backgroundId, image) {
-     return fetch(ROOMS_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': "application/json"
-      },
-      body: JSON.stringify({
-        user_id: userId,
-        background_id: backgroundId
-      })
+  return fetch(ROOMS_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': "application/json"
+    },
+    body: JSON.stringify({
+      user_id: userId,
+      background_id: backgroundId
     })
-      .then(resp => resp.json())
-       .then(roomData => {
-         image.setAttribute('name', roomData.id);
-        })
-  }
-  
-  
+  })
+    .then(resp => resp.json())
+    .then(roomData => {
+      image.setAttribute('name', roomData.id);
+    })
+}
+
+
 function fetchItems(image, userId) {
   return fetch(ITEMS_URL)
-  .then(resp => resp.json())
-  .then(data => renderItems(data, image, userId)) 
+    .then(resp => resp.json())
+    .then(data => renderItems(data, image, userId))
 }
 
 function renderItems(data, image, userId) {
@@ -247,8 +255,8 @@ function renderItems(data, image, userId) {
 
 function fetchUserData(userId, items, image) {
   return fetch(USERS_URL + '/' + userId)
-  .then (resp => resp.json())
-  .then (userData => renderUserData(userData, items, image))
+    .then(resp => resp.json())
+    .then(userData => renderUserData(userData, items, image))
 }
 
 function renderUserData(userData, items, image) {
@@ -260,7 +268,7 @@ function renderUserData(userData, items, image) {
   const itemsId = userData.backgrounds.map(background => background.items).flat();
   items.forEach(element => {
     // console.log(itemsId.find(item => item.id === element.id));
-    if(itemsId.find(item => item.id === element.id)) {
+    if (itemsId.find(item => item.id === element.id)) {
       let itemId = element.id;
       let imgCard = document.createElement("div");
       imgCard.className = 'decoration-cards';
@@ -277,7 +285,7 @@ function renderUserData(userData, items, image) {
       imgCard.appendChild(aTag);
       deleteItemAss(aTag, image, itemId, imgCard, element);
       // clickItems(itemImg, element, image);
-    }else {
+    } else {
       let itemId = element.id;
       let itemContainer = document.querySelector('.item-container')
       let imgCard = document.createElement("div");
@@ -295,7 +303,7 @@ function renderUserData(userData, items, image) {
 function deleteItemAss(aTag, image, itemId, imgCard, element) {
   console.log('itemID', element.id);
   fetchDecorationsData(aTag, image, itemId, imgCard, element)
-  
+
 }
 
 function fetchDecorationsData(aTag, image, itemId, imgCard, element) {
@@ -313,7 +321,7 @@ function fetchDecorationsData(aTag, image, itemId, imgCard, element) {
         })
           .then(resp => resp.json())
           .then(json => {
-            imgCard.innerHTML = "";
+            imgCard.remove();
             let itemContainer = document.querySelector('.item-container')
             let imgCard1 = document.createElement("div");
             imgCard1.className = 'item-cards';
@@ -323,15 +331,15 @@ function fetchDecorationsData(aTag, image, itemId, imgCard, element) {
             itemImg.className = 'item-image'
             imgCard1.appendChild(itemImg);
             clickItems(itemImg, element, image, itemId, imgCard);
-        })
-      })    
+          })
+      })
     })
 }
 
 
 function clickItems(itemImg, element, image, itemId, imgCard) {
-  itemImg.addEventListener('click', function(e){
-    // console.log('clicked')
+  itemImg.addEventListener('click', function (e) {
+    console.log("?????", itemImg.parentNode);
     itemImg.parentNode.remove();
     createDecoration(element, image, itemImg, itemId, imgCard)
   })
@@ -349,7 +357,7 @@ function createDecoration(element, image, itemImg, itemId, imgCard) {
     })
   })
     .then(resp => resp.json())
-    .then(decoratonData => 
+    .then(decoratonData =>
       createDecorationElement(image, itemImg, itemId, imgCard, element)
     )
 }
@@ -377,4 +385,5 @@ function createDecorationElement(image, itemImg, itemId, imgCard, element) {
 
 document.addEventListener('DOMContentLoaded', function () {
   fetchUsersData();
+  addMusic();
 })

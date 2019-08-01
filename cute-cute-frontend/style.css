@@ -230,7 +230,7 @@ h2 {
   justify-content: space-around;
   align-items: flex-end;
   width: 80%;
-  max-height: 100px;
+  height: 100px;
   margin-top: 70px;
 }
 
@@ -277,6 +277,10 @@ h2 {
   margin-top: 70px;
 }
 
+.decoration-cards, .decoration-card {
+  position: relative;
+}
+
 .decorationImages {
   position: absolute;
   height: 120px;
@@ -291,7 +295,6 @@ h2 {
 
 .room-choice {
   width: 100%;
-  margin: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -327,7 +330,7 @@ h2 {
 .remove-item {
   transition: transform .2s;
   display: none;
-  /* position: absolute; */
+  position: absolute;
   top: 0;
   right: 0;
   border-radius: 10em;
