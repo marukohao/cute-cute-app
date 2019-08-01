@@ -169,13 +169,16 @@ function roomChoice(button, image, userId, backgroundId, roomJson) {
       profilePage.innerHTML = '';
       profilePage.className = 'room-choice';
       createReturnButton(profilePage, userId);
+      const div = document.createElement('div');
+      div.className = 'room-background-container'
       image.className = "create-room-background";
-      profilePage.appendChild(image);
+      div.appendChild(image);
+      profilePage.appendChild(div);
       let aTag = document.createElement('a');
       aTag.innerText = 'x';
       aTag.className = 'remove-image';
       aTag.style = 'display: inline;'
-      profilePage.appendChild(aTag);
+      div.appendChild(aTag);
       roomDeleteButton(aTag, image, userId);
       const itemContainer = document.createElement('div');
       itemContainer.className = 'item-container';
@@ -187,14 +190,17 @@ function roomChoice(button, image, userId, backgroundId, roomJson) {
       profilePage.innerHTML = '';
       profilePage.className = 'room-choice';
       createReturnButton(profilePage, userId);
+      const div = document.createElement('div');
+      div.className = 'room-background-container'
       image.className = "create-room-background";
       image.setAttribute('name', roomId);
-      profilePage.appendChild(image);
+      div.appendChild(image);
+      profilePage.appendChild(div);
       let aTag = document.createElement('a');
       aTag.innerText = 'x';
       aTag.className = 'remove-image';
       aTag.style = 'display: inline;'
-      profilePage.appendChild(aTag);
+      div.appendChild(aTag);
       roomDeleteButton(aTag, image, userId);
       const itemContainer = document.createElement('div');
       itemContainer.className = 'item-container';
@@ -288,7 +294,13 @@ function renderUserData(userData, items, image) {
       let aTag = document.createElement('a');
       aTag.innerText = 'x';
       aTag.className = 'remove-item';
-      aTag.style = 'display: inline;'
+      aTag.style = 'visibility: hidden;'
+      imgCard.addEventListener('mouseover', function(e) {
+        aTag.style = 'visibility: visible;';
+      })
+      imgCard.addEventListener('mouseleave', function (e) {
+        aTag.style = 'visibility: hidden;';
+      })
       imgCard.appendChild(aTag);
       deleteItemAss(aTag, image, itemId, imgCard, element);
       // clickItems(itemImg, element, image);
@@ -372,10 +384,11 @@ function createDecoration(element, image, itemImg, itemId, imgCard) {
 function createDecorationElement(image, itemImg, itemId, imgCard, element) {
 
   const decorationsContainer = document.querySelector('.decorations-container');
+  const imageContainer = document.querySelector('.image-container');
   const decorationImg = document.createElement('img');
   const decorationCard = document.createElement('div');
   decorationCard.className = "decoration-card";
-  decorationsContainer.appendChild(decorationCard);
+  imageContainer.appendChild(decorationCard);
   decorationImg.src = itemImg.src;
   decorationImg.className = 'decorationImages';
   decorationImg.id = image.name;
@@ -383,10 +396,15 @@ function createDecorationElement(image, itemImg, itemId, imgCard, element) {
   let aTag = document.createElement('a');
   aTag.innerText = 'x';
   aTag.className = 'remove-item';
-  aTag.style = 'display: inline;'
+  aTag.style = 'visibility: hidden;'
   decorationCard.appendChild(aTag);
+  decorationCard.addEventListener('mouseover', function (e) {
+    aTag.style = 'visibility: visible;';
+  })
+  decorationCard.addEventListener('mouseleave', function (e) {
+    aTag.style = 'visibility: hidden;';
+  })
   // imgCard = decoratonCard;
-  console.log('imgcard', imgCard);
   deleteItemAss(aTag, image, itemId, decorationCard, element);
 }
 
