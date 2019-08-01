@@ -8,7 +8,8 @@ const DECORATIONS_URL = 'http://localhost:3000/decorations'
 
 function addMusic() {
   const musicElement = document.createElement("embed");
-  musicElement.src = "/Users/hao/Github/cute-cute-app/audio/Toy_Piano.mp3";
+  musicElement.src = "../audio/Toy_Piano.mp3";
+  // "/Users/hao/Github/cute-cute-app/audio/Toy_Piano.mp3"
   document.querySelector('body').append(musicElement);
 }
 
