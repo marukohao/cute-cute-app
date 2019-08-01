@@ -8,8 +8,8 @@
 
 
 background_a = Background.create(name: "zoo", background_url: "../images/backgrounds/zoo_background.jpg")
-background_b = Background.create(name: "kids_room", background_url: "..images/backgrounds/backgroundkid.jpg")
-background_c = Background.create(name: "kitchen", background_url: "..images/backgrounds/background_kitchen.jpg")
+background_b = Background.create(name: "kids_room", background_url: "../images/backgrounds/backgroundkid.jpg")
+background_c = Background.create(name: "kitchen", background_url: "../images/backgrounds/background_kitchen.jpg")
 
 
 zoo_item_a = Item.create(name: "fox", item_url: "../images/zoo-items/fox.png", room_type: "zoo")
@@ -22,10 +22,10 @@ kitchen_item_a = Item.create(name: "cupcake", item_url: "../images/kitchen-items
 kitchen_item_b = Item.create(name: "drink", item_url: "../images/kitchen-items/drink.png", room_type: "kitchen")
 kitchen_item_c = Item.create(name: "fries", item_url: "../images/kitchen-items/fries.png", room_type: "kitchen")
 kitchen_item_d = Item.create(name: "pizza", item_url: "../images/kitchen-items/pizza.png", room_type: "kitchen")
-kitchen_item_e = Item.create(name: "tolkien", item_url: "../images/tolkien.gif", room_type: "kitchen")
+# kitchen_item_e = Item.create(name: "tolkien", item_url: "../images/tolkien.gif", room_type: "kitchen")
 
-kids_room_item_a = Item.create(name: "dog", item_url: "../images/kitchen-items/dog1.png", room_type: "kids_room")
-kids_room_item_b = Item.create(name: "dog", item_url: "../images/dog1.png", room_type: "kids_room")
-kids_room_item_c = Item.create(name: "sloth", item_url: "../images/sloth.png", room_type: "kids_room")
-kids_room_item_d = Item.create(name: "sheep", item_url: "../images/sheep.png", room_type: "kids_room")
-kids_room_item_e = Item.create(name: "tolkien", item_url: "../images/tolkien.gif", room_type: "kids_room")
+# kids_room_item_a = Item.create(name: "dog", item_url: "../images/kitchen-items/dog1.png", room_type: "kids_room")
+# kids_room_item_b = Item.create(name: "dog", item_url: "../images/dog1.png", room_type: "kids_room")
+# kids_room_item_c = Item.create(name: "sloth", item_url: "../images/sloth.png", room_type: "kids_room")
+# kids_room_item_d = Item.create(name: "sheep", item_url: "../images/sheep.png", room_type: "kids_room")
+# kids_room_item_e = Item.create(name: "tolkien", item_url: "../images/tolkien.gif", room_type: "kids_room")

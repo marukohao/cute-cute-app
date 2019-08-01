@@ -67,9 +67,12 @@ function createUserElements(data) {
   profileDiv.className = "profile-page"
   profileBackground.appendChild(profileDiv)
   const h2 = document.createElement('h2');
-  h2.innerText = `Welcome ${data.username}!`
+  h2.innerText = `Hi ${data.username}!`
   h2.className = 'user-header'
-  profileDiv.appendChild(h2)
+  const h5 = document.createElement('h5');
+  h5.innerText = "please create a room blabla..";
+  profileDiv.appendChild(h2);
+  profileDiv.appendChild(h5);
   fetchBackgrounds(data);
   addMusic();
 }
@@ -93,6 +96,9 @@ function renderBackgrounds(info, data) {
     image.src = element.background_url;
     image.className = "background-images";
     image.id = `${element.name}`;
+    let roomName = document.createElement('h3');
+    roomName.innerText = element.name.replace("_", " ");
+    videoThumb.appendChild(roomName);
     videoThumb.appendChild(image);
     const userId = data.id;
     const backgroundId = element.id;
