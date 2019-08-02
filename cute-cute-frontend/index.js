@@ -20,7 +20,6 @@ function playAudio() {
 function addMusic() {
   const musicElement = document.createElement("embed");
   musicElement.src = "../audio/Toy_Piano.mp3";
-  // "/Users/hao/Github/cute-cute-app/audio/Toy_Piano.mp3"
   document.querySelector('body').append(musicElement);
   musicElement.style = 'visibility: hidden';
 }
