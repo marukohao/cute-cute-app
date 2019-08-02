@@ -13,7 +13,7 @@ background_c = Background.create(name: "kitchen", background_url: "../images/bac
 
 
 zoo_item_a = Item.create(name: "fox", item_url: "../images/zoo-items/fox.png", room_type: "zoo")
-zoo_item_b = Item.create(name: "lion", item_url: "../images/zoo-items/lionchanged.png", room_type: "zoo")
+zoo_item_b = Item.create(name: "sheep", item_url: "../images/zoo-items/sheep.png", room_type: "zoo")
 zoo_item_c = Item.create(name: "sloth", item_url: "../images/zoo-items/sloth.png", room_type: "zoo")
 zoo_item_d = Item.create(name: "giraffe", item_url: "../images/zoo-items/giraffechanged.png", room_type: "zoo")
 zoo_item_e = Item.create(name: "tolkien", item_url: "../images/zoo-items/tolkien.gif", room_type: "zoo")

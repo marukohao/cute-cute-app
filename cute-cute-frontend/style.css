@@ -10,6 +10,7 @@ body {
 }
 
 h2 {
+  position: absolute;
   font-size: 45px;
   color: white;
   text-shadow: 2px 2px 2px #f6caff;
@@ -24,6 +25,8 @@ h3 {
 }
 
 h5 {
+  margin-top: 100px;
+  position: absolute;
   margin-left: 50px;
   color: #ffb4c0;
   font-size: 15px;
@@ -132,6 +135,7 @@ h1 {
   justify-content: space-around;
   padding-top: 250px;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .video_thumb {
@@ -157,7 +161,7 @@ h1 {
 }
 
 .returnToProfile {
-  width: 100px;
+  width: 150px;
   height: 50px;
   margin: 20px;
   border-radius: 10px;
@@ -263,15 +267,13 @@ h1 {
   /* border-radius: 69px; */
   height: 150px;
   width: 150px;
-  padding: 10px;
   /* box-shadow: 7px 20px 20px 2px rgba(5, 1, 1, 0.2), 0 10px 12px 0 rgba(99, 72, 72, 0.19); */
 }
 
 .decoration-cards img {
   position: absolute;
-  height: 120px;
-  width: 120px;
-  padding: 10px;
+  height: 150px;
+  width: 150px;
 }
 
 .decoration-card img {
@@ -289,6 +291,7 @@ h1 {
   padding: 20px;
   width: 900px;
   height: 150px;
+  margin-top: 150px;
 }
 
 .decorations-container {
@@ -357,8 +360,8 @@ h1 {
   /* transition: transform .2s; */
   cursor: pointer;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 1%;
+  left: 1%;
   border-radius: 10em;
   padding: 2px 6px 3px;
   text-decoration: none;
@@ -376,10 +379,16 @@ h1 {
   position: relative;
 }
 
-/* a {
-  visibility: hidden;
-} */
+.logout-button {
+  float: right;
+  border-radius: 8px;
+  padding: 12px 25px;
+  margin: 2%;
+  background-color: #fff5c7;
+}
 
-/* a:hover {
-  visibility: visible;
-} */
+.logoImg {
+  position: absolute;
+  bottom: 1%;
+  left: 1%;
+}
